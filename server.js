@@ -128,8 +128,10 @@ const Reseña = model('Reseña', ReseñaSchema);
 
 const app = express();
 
-// 🚀 TIMESTAMP REDESPLIEGUE: 2025-07-03 03:50 UTC
+// 🚀 TIMESTAMP REDESPLIEGUE: 2025-07-03 03:50 UTC - FORZAR ACTUALIZACIÓN
 console.log('🚀 Backend iniciado - Timestamp:', new Date().toISOString());
+console.log('📂 Directory check:', __dirname);
+console.log('🖼️ Images directory exists:', fs.existsSync(path.join(__dirname, './public/images')));
 
 // 🚨 CORS ULTRA-AGRESIVO - SOLUCIÓN TEMPORAL 🚨
 app.use((req, res, next) => {
