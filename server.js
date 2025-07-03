@@ -1986,47 +1986,45 @@ app.get('/api/resenas/estadisticas', async (req, res) => {
 });
 
 // Endpoint de debug para verificar imágenes
-app.get('/debug/images', (req, res) => {
-  try {
-    const imagesPath = path.join(__dirname, './public/images');
-    console.log('📁 Verificando directorio de imágenes:', imagesPath);
-    
-    if (!fs.existsSync(imagesPath)) {
-      return res.json({
-        status: 'error',
-        message: 'Directorio de imágenes no existe',
-        path: imagesPath,
-        __dirname: __dirname
-      });
-    }
-    
-    const files = fs.readdirSync(imagesPath);
-    
-    res.json({
-      status: 'success',
-      message: 'Directorio de imágenes encontrado',
-      path: imagesPath,
-      __dirname: __dirname,
-      files: files,
-      totalFiles: files.length
-    });
-    
-  } catch (error) {
-    console.error('❌ Error verificando imágenes:', error);
-    res.status(500).json({
-      status: 'error',
-      error: error.message,
-      __dirname: __dirname
-    });
-  }
-});
-
-// Simple test endpoint
 app.get('/test-timestamp', (req, res) => {
   res.json({
     message: 'Servidor actualizado correctamente',
     timestamp: new Date().toISOString(),
     version: '2.0.0-fix-images'
   });
+});
+
+// Endpoint de diagnóstico para imágenes
+app.get('/api/debug/images', (req, res) => {
+  const uploadsPath = path.join(__dirname, './public/images');
+  console.log('📁 Debug: Checking images directory:', uploadsPath);
+  
+  try {
+    if (!fs.existsSync(uploadsPath)) {
+      console.log('❌ Directory does not exist');
+      return res.json({
+        exists: false,
+        path: uploadsPath,
+        error: 'Directory does not exist'
+      });
+    }
+    
+    const files = fs.readdirSync(uploadsPath);
+    console.log('📂 Found files:', files.length);
+    
+    res.json({
+      exists: true,
+      path: uploadsPath,
+      files: files,
+      count: files.length,
+      sampleFiles: files.slice(0, 5)
+    });
+  } catch (error) {
+    console.error('❌ Error reading directory:', error);
+    res.status(500).json({
+      error: error.message,
+      path: uploadsPath
+    });
+  }
 });
 
