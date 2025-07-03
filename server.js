@@ -128,6 +128,9 @@ const Reseña = model('Reseña', ReseñaSchema);
 
 const app = express();
 
+// 🚀 TIMESTAMP REDESPLIEGUE: 2025-07-03 03:50 UTC
+console.log('🚀 Backend iniciado - Timestamp:', new Date().toISOString());
+
 // 🚨 CORS ULTRA-AGRESIVO - SOLUCIÓN TEMPORAL 🚨
 app.use((req, res, next) => {
   console.log(`🌐 REQUEST: ${req.method} ${req.path} - Origin: ${req.get('Origin')}`);
